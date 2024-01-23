@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.3.6",
+    "@hookform/resolvers": "^3.3.4",
     "@planetscale/database": "^1.11.0",
     "@t3-oss/env-nextjs": "^0.7.1",
     "@tanstack/react-query": "^4.36.1",
@@ -23,8 +24,10 @@
     "drizzle-orm": "^0.29.3",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",
+    "query-string": "^8.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.49.3",
     "react-icons": "^5.0.1",
     "server-only": "^0.0.1",
     "superjson": "^2.2.1",
