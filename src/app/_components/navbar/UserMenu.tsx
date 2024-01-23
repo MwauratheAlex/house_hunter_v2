@@ -19,12 +19,12 @@ const UserMenu = () => {
           List your property
         </div>
         <div
-          className="flex cursor-pointer items-center gap-3 rounded-full
+          className="flex cursor-pointer items-center gap-3 rounded-full 
             border border-neutral-200 p-4 transition hover:shadow-md md:px-2 md:py-1"
           onClick={toggleOpen}
         >
           <AiOutlineMenu />
-          <div>
+          <div className="hidden md:block">
             <Avatar />
           </div>
         </div>
