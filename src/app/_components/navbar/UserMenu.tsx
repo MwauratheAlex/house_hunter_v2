@@ -3,16 +3,24 @@ import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "./Avatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
+import useRentModal from "~/app/hooks/useRentModal";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+
+  const rentModal = useRentModal();
+  const onRent = useCallback(() => {
+    rentModal.onOpen();
+  }, [rentModal]);
+
   return (
     <div className="relative">
       <div className="flex items-center gap-3">
         <div
+          onClick={onRent}
           className=" cursor-pointer rounded-full px-4
             py-3 text-sm font-semibold transition hover:bg-neutral-100"
         >
