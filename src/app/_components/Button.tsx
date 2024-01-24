@@ -2,7 +2,7 @@ import { IconType } from "react-icons";
 
 type ButtonProps = {
   label: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   outline?: boolean;
   small?: boolean;
@@ -17,8 +17,8 @@ const Button = ({ icon: Icon, ...props }: ButtonProps) => {
       className={`
             relative w-full rounded-lg
             transition hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-70
-            ${props.outline ? "bg-white" : "bg-rose-500"}
-            ${props.outline ? "border-black" : "border-rose-500"}
+            ${props.outline ? "bg-white" : "bg-gray-950"}
+            ${props.outline ? "border-black" : "border-gray-950"}
             ${props.outline ? "text-black" : "text-white"}
             ${props.small ? "text-sm" : "  text-base"}
             ${props.small ? "py-1" : "py-3"}
