@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import Heading from "../Heading";
+import SelectionBox from "../Inputs/SelectionBox";
 
 enum STEPS {
   CATEGORY = 0,
@@ -99,30 +100,30 @@ const RentModal = () => {
   const houseTypes = [
     {
       label: "Apartment",
-      icon: "apartment",
+      icon: "/images/apartment-icon.svg",
     },
     {
       label: "House",
-      icon: "house",
+      icon: "/images/house-icon2.svg",
     },
     {
       label: "Single Room",
-      icon: "room",
+      icon: "/images/single-icon.svg",
     },
     {
       label: "BedSitter",
-      icon: "studio",
+      icon: "/images/studio-icon.svg",
     },
   ];
 
   const categories = [
     {
-      label: "Rent",
-      icon: "rent",
+      label: "For Rent",
+      icon: "/images/rent-icon2.svg",
     },
     {
-      label: "Sell",
-      icon: "sell",
+      label: "For Sale",
+      icon: "/images/sale-icon.svg",
     },
   ];
 
@@ -132,14 +133,16 @@ const RentModal = () => {
         title="Are you Selling or Renting?"
         subtitle="Pick a category."
       />
-      <div>
-        {categories.map((housetype) => (
-          <div
-            onClick={() => setCustomValue("housetype", housetype.label)}
-            className="grid max-h-[50vh] grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2"
-          >
-            <div>{housetype.label}</div>
-            <div>{housetype.icon}</div>
+      <div className="grid max-h-[50vh] grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2">
+        {categories.map((item) => (
+          <div key={item.label} className="col-span-1">
+            <SelectionBox
+              icon={item.icon}
+              label={item.label}
+              selected={category === item.label}
+              onClick={(value) => setCustomValue("category", value)}
+              iconSize={36}
+            />
           </div>
         ))}
       </div>
@@ -150,17 +153,19 @@ const RentModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Which of this best describes your place?"
+          title="Which of this best describes your property?"
           subtitle="Pick a type."
         />
-        <div>
-          {houseTypes.map((housetype) => (
-            <div
-              onClick={() => setCustomValue("housetype", housetype.label)}
-              className="grid max-h-[50vh] grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2"
-            >
-              <div>{housetype.label}</div>
-              <div>{housetype.icon}</div>
+        <div className="grid max-h-[50vh] grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2">
+          {houseTypes.map((item) => (
+            <div key={item.label} className="col-span-1">
+              <SelectionBox
+                icon={item.icon}
+                label={item.label}
+                selected={category === item.label}
+                onClick={(value) => setCustomValue("category", value)}
+                iconSize={36}
+              />
             </div>
           ))}
         </div>
