@@ -2,7 +2,7 @@
 import useRentModal from "~/app/hooks/useRentModal";
 import Modal from "./Modal";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import Heading from "../Heading";
 import SelectionBox from "../Inputs/SelectionBox";
@@ -11,6 +11,8 @@ import LocationSelect from "../Inputs/LocationSelect";
 import { LatLng } from "use-places-autocomplete";
 import Input from "../Inputs/Input";
 import ImageUpload from "../Inputs/ImageUpload";
+import Counter from "../Inputs/Counter";
+import CheckBox from "../Inputs/CheckBox";
 
 enum STEPS {
   CATEGORY = 0,
@@ -46,6 +48,7 @@ const RentModal = () => {
       price: 1,
       category: "",
       roomcount: 0,
+      amenities: [],
     },
   });
 
@@ -57,6 +60,7 @@ const RentModal = () => {
   const category = watch("category");
   const roomcount = watch("roomcount");
   const housetype = watch("housetype");
+  const amenities = watch("amenities");
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -87,6 +91,7 @@ const RentModal = () => {
       category,
       roomcount,
       housetype,
+      amenities,
     });
     setTimeout(() => console.log("submitted"), 1000);
 
@@ -131,6 +136,13 @@ const RentModal = () => {
       label: "For Sale",
       icon: "/images/sale-icon.svg",
     },
+  ];
+
+  const amenitiesArray = [
+    { name: "Wifi" },
+    { name: "CCTV" },
+    { name: "Swimming Pool" },
+    { name: "Balcony" },
   ];
 
   const handleLocationSelection = (location: LatLng) => {
@@ -203,6 +215,25 @@ const RentModal = () => {
           title="Tell us more about your property"
           subtitle="What facilities does it have?"
         />
+        <Counter
+          onChange={(value) => setCustomValue("roomcount", value)}
+          value={roomcount}
+          title="Rooms"
+          subtitle="How many rooms are in your property?"
+        />
+        <Heading subtitle="Please select other amenities in your property." />
+        <ul className="grid max-h-[50vh] grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2">
+          {amenitiesArray.map((amenity) => (
+            <CheckBox
+              key={amenity.name}
+              id={amenity.name}
+              label={amenity.name}
+              value={amenity.name}
+              register={register}
+              group={"amenities"}
+            />
+          ))}
+        </ul>
       </div>
     );
   }

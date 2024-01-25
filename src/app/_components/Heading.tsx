@@ -1,5 +1,5 @@
 type HeadingProps = {
-  title: string;
+  title?: string;
   subtitle?: string;
   center?: boolean;
 };
