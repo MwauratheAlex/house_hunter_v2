@@ -9,6 +9,7 @@ import SelectionBox from "../Inputs/SelectionBox";
 import Map from "../Map";
 import LocationSelect from "../Inputs/LocationSelect";
 import { LatLng } from "use-places-autocomplete";
+import Input from "../Inputs/Input";
 
 enum STEPS {
   CATEGORY = 0,
@@ -41,7 +42,7 @@ const RentModal = () => {
       housetype: "",
       imageSrc: "",
       location: null,
-      price: 0,
+      price: 1,
       category: "",
       roomcount: 0,
     },
@@ -233,6 +234,16 @@ const RentModal = () => {
         <Heading
           title="Finally, let's set the price"
           subtitle="What are your monthly charges?"
+        />
+        <Input
+          id="price"
+          label="Price"
+          formatPrice
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
         />
       </div>
     );
