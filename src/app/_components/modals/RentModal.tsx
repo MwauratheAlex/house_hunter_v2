@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import Heading from "../Heading";
 import SelectionBox from "../Inputs/SelectionBox";
+import Map from "../Map";
 
 enum STEPS {
   CATEGORY = 0,
@@ -141,7 +142,7 @@ const RentModal = () => {
               label={item.label}
               selected={category === item.label}
               onClick={(value) => setCustomValue("category", value)}
-              iconSize={36}
+              iconSize={30}
             />
           </div>
         ))}
@@ -162,9 +163,9 @@ const RentModal = () => {
               <SelectionBox
                 icon={item.icon}
                 label={item.label}
-                selected={category === item.label}
-                onClick={(value) => setCustomValue("category", value)}
-                iconSize={36}
+                selected={housetype === item.label}
+                onClick={(value) => setCustomValue("housetype", value)}
+                iconSize={30}
               />
             </div>
           ))}
@@ -180,6 +181,7 @@ const RentModal = () => {
           title="Help clients find you."
           subtitle="Where is your property located?"
         />
+        <Map />
       </div>
     );
   }
