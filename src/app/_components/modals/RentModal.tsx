@@ -7,6 +7,8 @@ import { FieldValues, useForm } from "react-hook-form";
 import Heading from "../Heading";
 import SelectionBox from "../Inputs/SelectionBox";
 import Map from "../Map";
+import LocationSelect from "../Inputs/LocationSelect";
+import { LatLng } from "use-places-autocomplete";
 
 enum STEPS {
   CATEGORY = 0,
@@ -38,7 +40,7 @@ const RentModal = () => {
       description: "",
       housetype: "",
       imageSrc: "",
-      location: "",
+      location: null,
       price: 0,
       category: "",
       roomcount: 0,
@@ -82,6 +84,7 @@ const RentModal = () => {
       price,
       category,
       roomcount,
+      housetype,
     });
     setTimeout(() => console.log("submitted"), 1000);
 
@@ -127,6 +130,10 @@ const RentModal = () => {
       icon: "/images/sale-icon.svg",
     },
   ];
+
+  const handleLocationSelection = (location: LatLng) => {
+    setCustomValue("location", location);
+  };
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
@@ -176,12 +183,13 @@ const RentModal = () => {
 
   if (step === STEPS.LOCATION) {
     bodyContent = (
-      <div>
+      <div className="flex flex-col gap-8">
         <Heading
           title="Help clients find you."
           subtitle="Where is your property located?"
         />
-        <Map />
+        <LocationSelect onChange={handleLocationSelection} />
+        <Map mapCenter={location} />
       </div>
     );
   }
