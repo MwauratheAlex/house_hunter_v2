@@ -10,6 +10,7 @@ import Map from "../Map";
 import LocationSelect from "../Inputs/LocationSelect";
 import { LatLng } from "use-places-autocomplete";
 import Input from "../Inputs/Input";
+import ImageUpload from "../Inputs/ImageUpload";
 
 enum STEPS {
   CATEGORY = 0,
@@ -213,16 +214,37 @@ const RentModal = () => {
           title="Add a photo of your place."
           subtitle="Let client see how it looks like."
         />
+
+        <ImageUpload
+          onChange={(value) => setCustomValue("imageSrc", value)}
+          value={imageSrc}
+        />
       </div>
     );
   }
 
   if (step === STEPS.DESCRIPTION) {
     bodyContent = (
-      <div>
+      <div className="flex flex-col gap-8">
         <Heading
           title="Describe your place."
           subtitle="Make it short and sweet."
+        />
+        <Input
+          id="title"
+          label="Title"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        <Input
+          id="description"
+          label="Description"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
         />
       </div>
     );
