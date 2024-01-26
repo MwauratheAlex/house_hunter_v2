@@ -5,6 +5,8 @@ import { Inter, Nunito } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import Navbar from "./_components/navbar/Navbar";
 import RentModal from "./_components/modals/RentModal";
+import LoginModal from "./_components/modals/LoginModal";
+import RegisterModal from "./_components/modals/RegisterModal";
 
 const font = Nunito({
   subsets: ["latin-ext"],
@@ -27,6 +29,8 @@ export default function RootLayout({
         <TRPCReactProvider>
           <Navbar />
           <RentModal />
+          <LoginModal />
+          <RegisterModal />
           <div className="">{children}</div>
         </TRPCReactProvider>
       </body>

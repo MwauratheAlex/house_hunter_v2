@@ -4,6 +4,8 @@ import Avatar from "./Avatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import useRentModal from "~/app/hooks/useRentModal";
+import useRegisterModal from "~/app/hooks/useRegisterModal";
+import useLoginModal from "~/app/hooks/useLoginModal";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +17,16 @@ const UserMenu = () => {
   const onRent = useCallback(() => {
     rentModal.onOpen();
   }, [rentModal]);
+
+  const registerModal = useRegisterModal();
+  const onRegister = useCallback(() => {
+    registerModal.onOpen();
+  }, [registerModal]);
+
+  const loginModal = useLoginModal();
+  const onLogin = useCallback(() => {
+    loginModal.onOpen();
+  }, [loginModal]);
 
   return (
     <div className="relative">
@@ -42,8 +54,8 @@ const UserMenu = () => {
           className="absolute right-0 top-12
             w-[40vw] overflow-hidden rounded-xl bg-white text-sm shadow-md md:w-3/4"
         >
-          <MenuItem label="Login" onClick={() => {}} />
-          <MenuItem label="Signup" onClick={() => {}} />
+          <MenuItem label="Login" onClick={onLogin} />
+          <MenuItem label="Signup" onClick={onRegister} />
         </nav>
       )}
     </div>
