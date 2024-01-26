@@ -15,8 +15,6 @@ import Counter from "../Inputs/Counter";
 import CheckBox from "../Inputs/CheckBox";
 import { api } from "~/trpc/react";
 import { PropertyInputType } from "~/types";
-import { z } from "zod";
-import { UseTRPCMutationOptions } from "@trpc/react-query/shared";
 
 enum STEPS {
   CATEGORY = 0,
@@ -78,15 +76,24 @@ const RentModal = () => {
     setStep((value) => value + 1);
   };
 
-  const createProject = api.property.create.useMutation();
+  const createProject = api.property.create.useMutation({
+    onSuccess: () => {
+      reset();
+      router.refresh();
+      setStep(STEPS.CATEGORY);
+      rentModal.onClose();
+    },
+    onSettled: () => {
+      setIsLoading(false);
+    },
+  });
 
   const onSubmit = (data: any) => {
     if (step !== STEPS.PRICE) return onNext();
 
     setIsLoading(true);
-
+    console.log(typeof data.price);
     createProject.mutate(data);
-    setIsLoading(false);
   };
 
   const actionLabel = useMemo(() => {
@@ -207,7 +214,7 @@ const RentModal = () => {
           subtitle="What facilities does it have?"
         />
         <Counter
-          onChange={(value) => setCustomValue("roomcount", value)}
+          onChange={(value) => setCustomValue("roomCount", value)}
           value={roomcount}
           title="Rooms"
           subtitle="How many rooms are in your property?"

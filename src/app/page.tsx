@@ -17,7 +17,7 @@ export default async function Home(props: { params: {}; searchParams: {} }) {
           md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
         >
           {new Array(24).fill(4).map((_, idx) => (
-            <ListingCard idx={idx + 1} />
+            <ListingCard idx={idx + 1} key={idx} />
           ))}
         </div>
       </Container>

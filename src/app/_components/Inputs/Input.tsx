@@ -26,7 +26,10 @@ const Input = (props: InputProps) => {
       <input
         id={props.id}
         disabled={props.disabled}
-        {...props.register(props.id, { required: props.required })}
+        {...props.register(props.id, {
+          required: props.required,
+          valueAsNumber: props.formatPrice,
+        })}
         placeholder=" "
         type={props.type}
         className={`
