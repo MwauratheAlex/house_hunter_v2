@@ -1,14 +1,16 @@
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import { BiDollar } from "react-icons/bi";
+import { z } from "zod";
+import { PropertyInput, PropertyKeys } from "~/types";
 
 type InputProps = {
-  id: string;
+  id: PropertyKeys;
   label: string;
   type?: string;
   disabled?: boolean;
   formatPrice?: boolean;
   required?: boolean;
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<z.infer<typeof PropertyInput>>;
   errors: FieldErrors;
 };
 

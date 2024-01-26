@@ -13,6 +13,10 @@ import Input from "../Inputs/Input";
 import ImageUpload from "../Inputs/ImageUpload";
 import Counter from "../Inputs/Counter";
 import CheckBox from "../Inputs/CheckBox";
+import { api } from "~/trpc/react";
+import { PropertyInputType } from "~/types";
+import { z } from "zod";
+import { UseTRPCMutationOptions } from "@trpc/react-query/shared";
 
 enum STEPS {
   CATEGORY = 0,
@@ -38,31 +42,27 @@ const RentModal = () => {
     watch,
     reset,
     setValue,
-  } = useForm<FieldValues>({
+  } = useForm<PropertyInputType>({
     defaultValues: {
       title: "",
       description: "",
-      housetype: "",
+      type: "",
       imageSrc: "",
-      location: null,
+      location: undefined,
       price: 1,
       category: "",
-      roomcount: 0,
+      roomCount: 0,
       amenities: [],
     },
   });
 
-  const title = watch("title");
-  const description = watch("description");
   const imageSrc = watch("imageSrc");
   const location = watch("location");
-  const price = watch("price");
   const category = watch("category");
-  const roomcount = watch("roomcount");
-  const housetype = watch("housetype");
-  const amenities = watch("amenities");
+  const roomcount = watch("roomCount");
+  const housetype = watch("type");
 
-  const setCustomValue = (id: string, value: any) => {
+  const setCustomValue = (id: any, value: any) => {
     setValue(id, value, {
       shouldDirty: true,
       shouldTouch: true,
@@ -78,23 +78,14 @@ const RentModal = () => {
     setStep((value) => value + 1);
   };
 
-  const onSubmit = () => {
+  const createProject = api.property.create.useMutation();
+
+  const onSubmit = (data: any) => {
     if (step !== STEPS.PRICE) return onNext();
 
     setIsLoading(true);
-    console.log({
-      title,
-      description,
-      imageSrc,
-      location,
-      price,
-      category,
-      roomcount,
-      housetype,
-      amenities,
-    });
-    setTimeout(() => console.log("submitted"), 1000);
 
+    createProject.mutate(data);
     setIsLoading(false);
   };
 
@@ -185,7 +176,7 @@ const RentModal = () => {
                 icon={item.icon}
                 label={item.label}
                 selected={housetype === item.label}
-                onClick={(value) => setCustomValue("housetype", value)}
+                onClick={(value) => setCustomValue("type", value)}
                 iconSize={30}
               />
             </div>

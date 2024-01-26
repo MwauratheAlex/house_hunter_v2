@@ -1,12 +1,14 @@
 import { FieldValues, UseFormRegister } from "react-hook-form";
+import { z } from "zod";
+import { PropertyInput, PropertyKeys } from "~/types";
 
 type CheckBoxProps = {
   id: string;
   label: string;
   value: string;
   onClick?: (value: string) => void;
-  register: UseFormRegister<FieldValues>;
-  group: string;
+  register: UseFormRegister<z.infer<typeof PropertyInput>>;
+  group: PropertyKeys;
 };
 
 const CheckBox = (props: CheckBoxProps) => {
