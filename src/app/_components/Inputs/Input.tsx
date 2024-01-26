@@ -4,13 +4,13 @@ import { z } from "zod";
 import { PropertyInput, PropertyKeys } from "~/types";
 
 type InputProps = {
-  id: PropertyKeys;
+  id: PropertyKeys | any;
   label: string;
   type?: string;
   disabled?: boolean;
   formatPrice?: boolean;
   required?: boolean;
-  register: UseFormRegister<z.infer<typeof PropertyInput>>;
+  register: UseFormRegister<z.infer<typeof PropertyInput>> | any;
   errors: FieldErrors;
 };
 

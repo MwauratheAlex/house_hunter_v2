@@ -18,3 +18,12 @@ export const PropertyInput = z.object({
 export type PropertyInputType = z.infer<typeof PropertyInput>;
 
 export type PropertyKeys = keyof PropertyInputType;
+
+export const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
+export type LoginSchemaType = z.infer<typeof LoginSchema>;
+
+export type LoginSchemaKeys = keyof LoginSchemaType;
