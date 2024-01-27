@@ -19,11 +19,12 @@ export type PropertyInputType = z.infer<typeof PropertyInput>;
 
 export type PropertyKeys = keyof PropertyInputType;
 
-export const LoginSchema = z.object({
+export const RegisterUserSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
+  name: z.string().min(3),
+  password: z.string().min(6),
 });
 
-export type LoginSchemaType = z.infer<typeof LoginSchema>;
+export type RegisterUserSchemaType = z.infer<typeof RegisterUserSchema>;
 
-export type LoginSchemaKeys = keyof LoginSchemaType;
+export type RegisterUserSchemaKeys = keyof RegisterUserSchemaType;

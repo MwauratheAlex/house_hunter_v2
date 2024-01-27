@@ -3,6 +3,8 @@ import { useCallback, useState } from "react";
 import Modal from "./Modal";
 import useLoginModal from "~/app/hooks/useLoginModal";
 import useRegisterModal from "~/app/hooks/useRegisterModal";
+import { BsExclamationTriangle } from "react-icons/bs";
+
 import {
   FieldValue,
   FieldValues,
@@ -12,11 +14,18 @@ import {
 import Heading from "../Heading";
 import Input from "../Inputs/Input";
 import Button from "../Button";
+import { api } from "~/trpc/react";
+import { RegisterUserSchema, RegisterUserSchemaType } from "~/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormError from "../FormError";
+import FormSuccess from "../FormSuccess";
 
 const RegisterModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const toggle = useCallback(() => {
     registerModal.onClose();
@@ -26,23 +35,37 @@ const RegisterModal = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<FieldValues>({
+  } = useForm<RegisterUserSchemaType>({
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
+    resolver: zodResolver(RegisterUserSchema),
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
-    setIsLoading(true);
-    setTimeout(() => {
+  const createUser = api.user.create.useMutation({
+    onSuccess: ({ error, success }) => {
       setIsLoading(false);
-      registerModal.onClose();
-      loginModal.onOpen();
-      console.log("login success");
-    }, 1000);
+      setError(error || "");
+      setSuccess(success || "");
+      reset();
+    },
+  });
+
+  const onSubmit: SubmitHandler<RegisterUserSchemaType> = (data) => {
+    setError("");
+    setSuccess("");
+    setIsLoading(true);
+    createUser.mutate(data);
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    //   registerModal.onClose();
+    //   loginModal.onOpen();
+    //   console.log("login success");
+    // }, 1000);
   };
 
   const bodyContent = (
@@ -50,6 +73,14 @@ const RegisterModal = () => {
       <Heading
         title="Welcome to house hunter!"
         subtitle="Let's get you an account."
+      />
+      <Input
+        id="name"
+        label="Name"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
       />
       <Input
         id="email"
@@ -61,14 +92,6 @@ const RegisterModal = () => {
         type="email"
       />
       <Input
-        id="name"
-        label="Name"
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      />
-      <Input
         id="password"
         label="Password"
         disabled={isLoading}
@@ -77,15 +100,8 @@ const RegisterModal = () => {
         required
         type="password"
       />
-      <Input
-        id="password"
-        label="Confirm your password"
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-        type="password"
-      />
+      <FormError message={error} />
+      <FormSuccess message={success} />
     </div>
   );
 

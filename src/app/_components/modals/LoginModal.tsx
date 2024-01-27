@@ -8,9 +8,8 @@ import { useCallback, useState, useTransition } from "react";
 import useRegisterModal from "~/app/hooks/useRegisterModal";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "../Inputs/Input";
-import { LoginSchemaType } from "~/types";
+import { RegisterUserSchema, RegisterUserSchemaType } from "~/types";
 import { api } from "~/trpc/react";
-import { login } from "~/actions/login";
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
@@ -21,7 +20,7 @@ const LoginModal = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginSchemaType>({
+  } = useForm<RegisterUserSchemaType>({
     defaultValues: {
       email: "",
       password: "",
@@ -29,11 +28,11 @@ const LoginModal = () => {
   });
 
   const [isPending, startTransition] = useTransition();
-  const onSubmit: SubmitHandler<LoginSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<RegisterUserSchemaType> = (data) => {
     setIsLoading(true);
-    startTransition(() => {
-      login(data);
-    });
+    // startTransition(() => {
+    //   login(data);
+    // });
   };
 
   const toggle = useCallback(() => {
