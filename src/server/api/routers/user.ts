@@ -5,6 +5,7 @@ import { users, verificationTokens } from "~/server/db/schema";
 import { createId } from "@paralleldrive/cuid2";
 import { eq } from "drizzle-orm";
 import { sendVerificationEmail } from "~/lib/mail";
+import { generateVerificationToken } from "~/lib/tokens";
 
 export const userRouter = createTRPCRouter({
   create: publicProcedure
@@ -35,30 +36,10 @@ export const userRouter = createTRPCRouter({
       });
 
       //   verification
-      const existingToken = await ctx.db.query.verificationTokens.findMany({
-        where: (verificationToken, { eq }) =>
-          eq(verificationToken.email, email),
-      });
-
-      if (existingToken) {
-        await ctx.db
-          .delete(verificationTokens)
-          .where(eq(verificationTokens.email, email));
-      }
-
-      const token = createId();
-      const expires = new Date(new Date().getTime() + 3600 * 1000);
-
-      await ctx.db.insert(verificationTokens).values({
-        token,
-        expires,
-        email,
-      });
+      const token = await generateVerificationToken(email);
 
       // send email
-      await sendVerificationEmail(email, token)
-        .then((value) => console.log(value))
-        .catch((reason) => console.log("error", reason));
+      await sendVerificationEmail(email, token);
 
       return { success: "Email sent for verification" };
     }),
